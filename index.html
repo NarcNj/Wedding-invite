@@ -1,134 +1,96 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>کارت عروسی نرگس و حسین</title>
-<style>
-/* فونت و بدنه */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Tahoma', sans-serif;
-  background: #ffe4ec;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  overflow: hidden;
-}
+  <meta charset="UTF-8">
+  <title>کارت عروسی نرگس 💌</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #fbeff7;
+      font-family: "Tahoma", sans-serif;
+    }
 
-/* پاکت */
-.envelope {
-  width: 300px;
-  height: 200px;
-  background: #d63384;
-  position: relative;
-  cursor: pointer;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-  transition: transform 0.4s ease;
-}
+    /* پاکت */
+    #envelope {
+      width: 300px;
+      height: 200px;
+      position: relative;
+      cursor: pointer;
+      perspective: 1000px;
+    }
 
-.envelope:hover { transform: scale(1.05); }
+    #envelope img {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      transition: transform 1s;
+      backface-visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
 
-.flap {
-  width: 0;
-  height: 0;
-  border-left: 150px solid transparent;
-  border-right: 150px solid transparent;
-  border-bottom: 100px solid #ff6fa5;
-  position: absolute;
-  top: -100px;
-  left: 0;
-  transition: transform 0.8s ease;
-  transform-origin: bottom;
-}
+    /* حالت باز شدن */
+    #envelope.open img:first-child {
+      transform: rotateY(180deg);
+    }
 
-/* وقتی باز شد */
-.envelope.open .flap {
-  transform: rotateX(180deg);
-}
+    /* کارت داخل پاکت */
+    #card {
+      width: 280px;
+      height: 180px;
+      margin-top: 20px;
+      display: none;
+      text-align: center;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      padding: 20px;
+      animation: fadeIn 1s ease forwards;
+    }
 
-/* کارت داخل پاکت */
-.card {
-  width: 280px;
-  max-width: 95%;
-  padding: 20px;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  text-align: center;
-  position: absolute;
-  opacity: 0;
-  transform: scale(0.8);
-  transition: all 1s ease;
-}
+    #card img {
+      width: 100%;
+      border-radius: 10px;
+    }
 
-.card.show {
-  opacity: 1;
-  transform: scale(1);
-  z-index: 2;
-}
-
-/* متن کارت */
-h1 { font-size: 1.8rem; color: #d63384; margin-bottom: 10px; }
-h2 { font-size: 1.4rem; margin-bottom: 15px; color: #444; }
-p { font-size: 1rem; line-height: 1.7; color: #333; }
-.date { font-size: 1.2rem; font-weight: bold; margin-top: 15px; color: #d63384; }
-.countdown { margin-top: 15px; font-size: 1rem; background: #fff0f7; padding: 10px; border-radius: 10px; }
-footer { margin-top: 20px; font-size: 0.9rem; color: #666; }
-</style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
 
-<!-- پاکت -->
-<div class="envelope" id="envelope">
-  <div class="flap"></div>
-</div>
+  <!-- پاکت -->
+  <div id="envelope">
+    <img src="images/front.webp" alt="پاکت">
+  </div>
 
-<!-- کارت -->
-<div class="card" id="card">
-  <h1>دعوت به جشن عروسی</h1>
-  <h2>نرگس ❤️ حسین</h2>
-  <p>با کمال افتخار، شما را به مراسم پیوند عاشقانه‌مان دعوت می‌کنیم.<br>حضور شما روشنی‌بخش محفل ما خواهد بود.</p>
-  <div class="date">۲۸ شهریور ۱۴۰۴</div>
-  <div class="countdown" id="countdown">در حال بارگذاری...</div>
-  <footer>مکان: تالار نمونه، تهران</footer>
-</div>
+  <!-- کارت -->
+  <div id="card">
+    <img src="images/back.webp" alt="کارت">
+  </div>
 
-<script>
-// باز شدن کارت
-const envelope = document.getElementById("envelope");
-const card = document.getElementById("card");
+  <!-- موزیک -->
+  <audio src="audio/music.mp3" autoplay loop></audio>
 
-envelope.addEventListener("click", () => {
-  envelope.classList.add("open");          // انیمیشن باز شدن پاکت
-  setTimeout(() => { card.classList.add("show"); }, 800); // کارت بعد از 0.8 ثانیه ظاهر می‌شود
-});
+  <script>
+    const envelope = document.getElementById("envelope");
+    const card = document.getElementById("card");
 
-// تایمر شمارش معکوس
-const countdown = document.getElementById("countdown");
-const weddingDate = new Date("2025-09-19T18:00:00").getTime();
-
-const timer = setInterval(() => {
-  const now = new Date().getTime();
-  const distance = weddingDate - now;
-
-  if (distance < 0) {
-    clearInterval(timer);
-    countdown.innerHTML = "🎉 جشن شروع شد!";
-    return;
-  }
-
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  countdown.innerHTML = `مانده: ${days} روز ${hours} ساعت ${minutes} دقیقه ${seconds} ثانیه`;
-}, 1000);
-</script>
-
+    envelope.addEventListener("click", () => {
+      envelope.classList.add("open");
+      setTimeout(() => {
+        card.style.display = "block";
+      }, 1000); // بعد از ۱ ثانیه کارت نمایش داده میشه
+    });
+  </script>
 </body>
 </html>
